@@ -1,0 +1,156 @@
+\section{Introduction}
+
+\begin{frame}
+  \frametitle{Introduction}
+
+  \begin{block}{Histoire}
+    \begin{itemize}
+      \item la première \textit{release} de Perl date de 1987 (avant la
+        naissance du Web !)
+      \item le livre de référence ``Programming perl'' est publié en ??? et
+        Perl 4.0 est disponible
+      \item Perl 5.0, la version actuelle, apparaît en 1994 :
+        \begin{itemize}
+        \item nouvelle conception extensible
+        \item introduction des modules tiers
+	\item possibilité de définir des structures de données complexes
+        \item des capacités orientées objets
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Son nom}
+    \begin{itemize}
+      \item \textit{Practical Extraction and Reporting Language}
+      \item Perl est le langage
+      \item perl est le compilateur
+      \item on n'écrit jamais PERL
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Introduction}
+
+  \begin{block}{Caractéristiques}
+    \begin{itemize}
+      \item un langage de programmation général et de haut niveau
+      \item libre et open source
+      \item intégre les meilleurs choses du C, de \textit{awk}, de \textit{sed}
+        et de d'autres langages
+      \item un mélange d'orienté objets et de procédural
+      \item rapide
+      \item flexible
+      \item sûr
+      \item \ldots et sympa !
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Utilisations}
+    \begin{itemize}
+      \item traitement sur des textes et des chaînes de caractères
+      \item tâches d'administration système et réseau
+      \item programmation web et CGI
+      \item interaction avec des bases de données
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Introduction}
+
+  \begin{block}{Pourquoi utiliser Perl ?}
+    \begin{itemize}
+      \item prototypage rapide
+      \item compact donc rapide à écrire et simple à debugger
+      \item la gestion mémoire est automatique,
+      \item les tableaux, les listes, les tables de hachage sont natifs
+      \item portable : Unix, Windows, Mac OS X
+      \item très expressif
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Philosophie}
+    \begin{itemize}
+      \item ``les choses simples doivent être simples et les choses difficiles
+        doivent être possibles''
+      \item une des devises de Perl est : \textit{there is more than one way
+        to do it} $\rightarrow$ ``il y a plus d'une façon de le faire''
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Introduction}
+
+  \begin{block}{Un programme Perl}
+    \begin{itemize}
+      \item un simple fichier texte (écrit avec vi ou emacs !)
+      \item la syntaxe est proche du C :
+        \begin{itemize}
+        \item les espaces ne jouent pas de rôle particulier
+        \item les instructions se terminent par des points virgules
+        \end{itemize}
+      \item les commandes sont de type ``fin de ligne'' et commencent
+        par le caractère \#
+      \item les variables ne doivent pas être déclarées
+      \item l'interpréteur Perl compile et exécute les scripts
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Introduction}
+
+  \begin{exampleblock}{Execution}
+    Deux possibilités pour exécuter un script Perl
+    \begin{itemize}
+      \item en ligne de commmande :
+        \begin{lstlisting}[language=bash]
+$ perl script.pl
+          \end{lstlisting}
+      \item à partir d'un fichier script exécutable :
+        \begin{itemize}
+        \item ajout d'une ligne en début de ligne pour indiquer la commande
+          à exécuter pour exécuter le script (\textit{shebang line})
+          \begin{lstlisting}[language=bash]
+#!/usr/bin/perl
+          \end{lstlisting}
+        \item fichier en mode exécutable :
+          \begin{lstlisting}[language=bash]
+$ chmod +x script.pl
+          \end{lstlisting}
+        \item exécution :
+          \begin{lstlisting}[language=bash]
+$ ./script.pl
+          \end{lstlisting}
+        \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Introduction}
+
+  \begin{alertblock}{Options}
+    Il existe plusieurs options d'exécution dont le mode ``avec warnings'' :
+    \begin{lstlisting}[language=bash]
+$ perl -w script.pl
+    \end{lstlisting}
+  \end{alertblock}
+
+  \begin{exampleblock}{Mon premier script Perl}
+    \begin{lstlisting}[language=perl]
+#!/usr/bin/perl
+
+print "Hello world\n";
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+

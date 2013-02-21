@@ -1,0 +1,209 @@
+\section{Les variables et les types}
+
+\begin{frame}[fragile]
+  \frametitle{Les variables}
+
+  \begin{block}{Définition}
+    \begin{itemize}
+      \item Perl est un langage faiblement typé
+      \item une variable est ``typée'' par sa valeur et son contexte
+        d'utilisation
+      \item le nom d'une variable est composé de lettres, de chiffres et du
+        caractères \_, et ne peut pas commencer par un chiffre
+      \item le caractère de ponctuation précédant le nom de la variable
+        indique son type
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Les types}
+    \begin{itemize}
+    \item les scalaires commecent par \$
+    \item les tableaux par @
+    \item les tables de hachage par \%
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les variables}
+
+  \begin{block}{Définition}
+    \begin{itemize}
+      \item il n'est pas nécessaire de déclarer les variables mais c'est
+        préférable (cela permet de bien poser les variables utilisées)
+      \item dès l'utilisation d'une variable, elle est déclarée
+      \item par défaut, une variable de type scalaire contient la valeur
+        \textit{undef}
+      \item on déclare une variable de la manière suivante :
+        \begin{lstlisting}[language=perl]
+my $x;
+my $x = 'Hello world';
+        \end{lstlisting}
+    \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Visibilité}
+    \begin{itemize}
+    \item une variable est accessible dans le bloc où elle est définie
+    \item au sein d'un bloc, les variables peuvent être définies où l'on veut
+    \end{itemize}
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les scalaires}
+
+  \begin{block}{Définition}
+    \begin{itemize}
+    \item un scalaire est une simple valeur
+    \item par exemple; les nombres, les chaînes de caractères, \ldots
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Les nombres}
+    \begin{itemize}
+    \item les nombres sont représentés en double précision
+    \item un nombre peut être un entier ou un réel
+    \item quelques exemples de valeurs possibles :
+      \begin{itemize}
+      \item 4294967295
+      \item 4\_294\_967\_295
+      \item 0xFFFFFFFF
+      \item 0xFF\_FF\_FF\_FF
+      \item 0b1111\_1111\_1111\_1111
+      \end{itemize}
+    \item le caractère \_ permet de rendre lisible certaines valeurs et il est
+      ignoré
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les scalaires}
+
+  \begin{block}{Les opérateurs sur les nombres}
+    \begin{itemize}
+    \item arithmétique : +, -, * et /
+    \item exponentiel : **
+    \item modulo : %
+    \item comparaison : <, >, ==, !=, <=, >=
+    \item logique : not ou !, \&\&, ||
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les scalaires}
+
+  \begin{block}{Les chaînes de caractères}
+    \begin{itemize}
+    \item deux délimiteurs sont possibles : double quote (") et simple quote(')
+    \item dans le cas de la simple quote : aucune interprétation n'est faite
+    \item par exemple, \\n est vu comme une chaîne à 2 caractères et non
+      comme un retour chariot
+    \item dans le cas de la double quote, les séquences spéciales sont
+      interprétées
+      \begin{lstlisting}[language=perl]
+"hello ${name}\\n" ou "hello $name\\n"
+      \end{lstlisting}
+    \item \$name est remplacé par la valeur de la variable
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Opérateurs}
+    \begin{itemize}
+    \item concaténation avec le point
+      \begin{lstlisting}[language=perl]
+'Hello ' . 'World!' # 'Hello World!'
+      \end{lstlisting}
+    \item réplication avec x
+      \begin{lstlisting}[language=perl]
+'Hello ' x 3   # 'Hello Hello Hello '
+      \end{lstlisting}
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les scalaires}
+
+  \begin{block}{Les opérateurs de comparaison}
+    \begin{itemize}
+    \item les noms des opérateurs est comme en Fortran
+    \item c'est une comparaison basée sur les codes ASCII
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Liste}
+    \begin{lstlisting}{language=perl}
+'Peter' gt 'Joey'     # greater than, TRUE
+'Sammy' lt 'Dean'     # less than, FALSE
+'Frank' eq 'frank'    # equals, FALSE
+'Frank' ne 'Peter'    # not equals, TRUE
+'Frank' ge 'Dean'     # greater or equal, TRUE
+'Frank' le 'Joey'     # lesser or equal, TRUE
+'2' gt '10'           # TRUE
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les scalaires}
+
+  \begin{block}{Le contexte}
+    En fonction des opérateurs et des opérandes, un scalaire peut
+    être vu comme un nombre ou une chaîne de caractères
+  \end{block}
+
+  \begin{exampleblock}{Exemple}
+    \begin{lstlisting}{language=perl}
+"1234 My Way" => 1234
+
+5 + "1234 My Way" => 1239
+
+'$' . (102/5) => '$20.4'
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les listes}
+
+  \begin{block}{Définition}
+    \begin{itemize}
+      \item une liste est un ensemble de scalaires
+      \item les éléments sont indexés et les indices commencent par 0
+      \item les paranthèses marquent la définition d'une liste
+        \begin{lstlisting}{language=perl}
+('Lapin', 'Poule', 'Canard')
+        \end{lstlisting}
+      \item il est possible de sélectionner une sous-partie de la liste
+        \begin{lstlisting}{language=perl}
+('Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim')[1,5]
+('Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim')[-2,-1]
+        \end{lstlisting}
+    \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Liste et fonction}
+    Certaines fonctions retournent des listes
+    \begin{lstlisting}{language=perl}
+($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
+($mon, $mday, $year) = (localtime())[4,3,5]
+    \end{lstlisting}
+  \end{alertblock}
+\end{frame}
+
