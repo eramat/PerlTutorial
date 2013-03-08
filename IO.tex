@@ -1,1 +1,268 @@
 \section{Entrées et sorties}
+
+\begin{frame}[fragile]
+  \frametitle{Entrées et sorties}
+
+  \begin{block}{Définition}
+    \begin{itemize}
+    \item le principal objectif d'un script est de faire des entrée-sorties
+    \item il existe plusieurs méthodes :
+      \begin{itemize}
+      \item via les entrée-sorties standards (STDIN et STDOUT)
+      \item via des fichiers
+      \item \ldots
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Sortie standard}
+    \begin{itemize}
+    \item envoi de données vers la sortie standard via la fonction
+      \textit{print}
+      \begin{lstlisting}{language=perl}
+print "Hello world!\n";
+print STDOUT "Hello world!\n"
+      \end{lstlisting}
+    \item sortie à l'aide de la variable \$\_
+      \begin{lstlisting}{language=perl}
+print;
+print STDOUT;
+      \end{lstlisting}
+    \item sortie de plusieurs éléments via un seul appel à \textit{print}
+      \begin{lstlisting}{language=perl}
+print "Hello", " world", "!\n";
+print "Le nombre est : ", 10 + 10 + 1, "!\n";
+      \end{lstlisting}
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Entrées et sorties}
+
+  \begin{block}{Sorties formatées}
+    \begin{itemize}
+    \item \textit{printf} est un \textit{print} avec une chaîne de caractères
+      de formatage
+      \begin{lstlisting}{language=perl}
+printf "Le nombre est %d!\n", 10 + 11;
+printf "%s appartient au groupe %s\n", $user, $group;
+      \end{lstlisting}
+    \item la notion du format est identique à celui du langage C
+      \begin{lstlisting}
+printf "La taille du fichier est \$%.2f Mo\n", $size;
+      \end{lstlisting}
+    \item le mécanisme fonctionne aussi pour construire des chaînes de
+      caractères
+      \begin{lstlisting}
+$str = sprintf "La taille du fichier est \$%.2f Mo\n", $size;
+      \end{lstlisting}
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Entrées et sorties}
+
+  \begin{block}{Entrée standard}
+    \begin{itemize}
+    \item les éléments de l'entrée standard (clavier ou via l'opérateur $<$)
+      sont accessibles via \textit{<STDIN>}
+      \begin{lstlisting}{language=perl}
+print "Entrer votre login :";
+$name = <STDIN>;
+      \end{lstlisting}
+    \item $<$ \ldots $>$ est l'opérateur de lecture d'un flux en général
+    \item dans un contexte de liste, \textit{<STDIN>} retourne toutes les lignes
+      en une seule fois
+      \begin{lstlisting}{language=perl}
+@lines = <STDIN>;
+      \end{lstlisting}
+    \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Suppression des sauts de ligne}
+    La fonction \textit{chomp} retire les sauts de ligne d'une variable de type
+    string
+    \begin{lstlisting}{language=perl}
+chomp($name = <STDIN>);
+    \end{lstlisting}
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Entrées et sorties}
+
+  \begin{block}{Boucle sur des entrées}
+    \begin{itemize}
+    \item les éléments mis sur l'entrée standard peuvent être lu dans une boucle
+    \item la variable \$\_ peut être utilisée
+    \begin{lstlisting}{language=perl}
+while( <STDIN> )
+{
+  print "echo> $_";
+}
+    \end{lstlisting}
+  \item sinon il faut définir une variable
+    \begin{lstlisting}{language=perl}
+while( defined($line = <STDIN>) )
+{
+  print "echo> $line\n";
+}
+    \end{lstlisting}
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Entrées et sorties}
+
+  \begin{block}{L'opérateur $<>$}
+    \begin{itemize}
+    \item il est possible de considérer une liste de fichiers mis en
+      paramètre d'un script comme l'entrée standard
+      \begin{lstlisting}{language=bash}
+$ perl script.pl file1 file2 file3
+      \end{lstlisting}
+      \begin{lstlisting}{language=perl}
+while( <> )
+{
+  print "echo> $_";
+ }
+      \end{lstlisting}
+    \item le contenu des fichiers file1, file2 et file3 sont envoyés vers la
+      sortie standard
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Entrées et sorties}
+
+  \begin{exampleblock}{Lecture de fichier}
+    \begin{itemize}
+    \item dans un premier temps, il faut ouvrir le fichier via la fonction
+      \textit{open} qui retourne un \textit{handler} sur le fichier (FILE)
+      \begin{lstlisting}{language=perl}
+open FILE, "filename";
+      \end{lstlisting}
+    \item la lecture est totalement identique à la lecture sur l'entrée
+      standard
+      \begin{lstlisting}{language=perl}
+while( <FILE> )
+{
+  print "echo> $_";
+}
+      \end{lstlisting}
+    \end{itemize}
+  \end{exampleblock}
+
+  \begin{alertblock}{Test d'ouverture}
+    L'ouverture d'un fichier peut échouer, dans ce cas, on peut associer une
+    sortie d'erreur avec la fonction \textit{die}
+    \begin{lstlisting}{language=perl}
+open FILE, "filename" or die "Could not open file: $! \n";
+    \end{lstlisting}
+    \$! est une variable spéciale contenant la dernière erreur
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Entrées et sorties}
+
+  \begin{block}{Ecriture de fichier}
+    \begin{itemize}
+    \item comme pour la lecture, il faut ouvrir le fichier via la fonction
+      \textit{open} qui retourne un \textit{handler} sur le fichier (FILE)
+    \item la seule différence réside dans le contenu de la chaîne de
+      caractères contenant le nom du fichier
+      \begin{lstlisting}{language=perl}
+open FILE, "> filename";
+open FILE, ">> filename";
+      \end{lstlisting}
+    \item $>$ ouvre le fichier en création
+    \item $>>$ ouvre le fichier en ajout à la fin
+    \item l'écriture est très proche de l'écriture sur la sortie
+      standard, on mentionne juste le \textit{handler}
+      \begin{lstlisting}{language=perl}
+print FILE "Hello", " world", "!\n";
+printf FILE "%s n'existe pas \n", $file;
+      \end{lstlisting}
+    \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Fermeture}
+    Après utilisation d'un fichier, il faut le "fermer" : \textit{close FILE;}
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Entrées et sorties}
+
+  \begin{block}{Perl et les \textit{pipes}}
+    \begin{itemize}
+    \item les entrées-sorties peuvent se faire via des \textit{pipes} entre
+      processus
+    \item l'entrée d'un processus est la sortie d'un autre processus
+    \item Perl permet de se "connecter" en entrée ou en sortie à un autre
+      processus via un \textit{pipe}
+    \item la philosophie est toujours la même : la chaîne de caractères passée
+      en paramètre de la fonction \textit{open} va contenir le symbole | et
+      le processus auquel on se connecte
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    \begin{itemize}
+    \item en sortie :
+      \begin{lstlisting}{language=perl}
+open GREP, '| grep -e "s"';
+      \end{lstlisting}
+    \item en entrée :
+      \begin{lstlisting}{language=perl}
+open NETSTAT, "netstat |";
+while( <NETSTAT> )
+{
+  # un traitement
+}
+      \end{lstlisting}
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Entrées et sorties}
+
+  \begin{block}{\textit{backquote}}
+    \begin{itemize}
+    \item en \textit{shell}, les \textit{backquotes} permettent d'invoquer
+      une commande à l'intérieur d'une autre commande
+    \item le retour de la commande entre \textit{backquotes} remplace la
+      commande est l'autre commande est exécutée
+      \begin{lstlisting}{language=bash}
+$ cc -o exe `pkg-config --libs --cflags gtkmm-2.4` test.cc
+      \end{lstlisting}
+    \item en Perl, on peut exécuter une commande externe et stocker le résultat
+      dans une variable pour un traitement ultérieur
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    Le résultat de la commande \textit{ls} est placé dans une variable scalaire
+    ou une liste
+    \begin{lstlisting}{language=perl}
+$lines = `ls -l`;
+@lines = `ls -l`;
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+

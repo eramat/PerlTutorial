@@ -1,0 +1,333 @@
+\section{Les structures de contrôle}
+
+\begin{frame}[fragile]
+  \frametitle{Les structures de contrôle}
+
+  \begin{block}{Les blocs}
+    \begin{itemize}
+    \item un bloc d'instructions est défini entre accolades
+    \item en général, un bloc est précédé par une instruction de contrôle
+    \item si l'accolade ouvrante (marquant le début du bloc) n'est pas
+      précédée par une instruction de contrôle (par exemple, un \textit{if})
+      alors ce bloc n'a aucun effet
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Un bloc simple}
+    \begin{lstlisting}{language=perl}
+{
+  instruction_1;
+  instruction_2;
+  ...
+  instruction_n;
+}
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les structures de contrôle}
+
+  \begin{block}{Le bloc \textit{if}}
+    \begin{itemize}
+    \item le bloc est exécuté si la condition est vraie
+    \item un bloc \textit{else} peut être ajouté si on veut faire exécuter
+      des instructions dans le cas où la condition est fausse
+    \item l'instruction \textit{elsif} permet de construire des conditions
+      en cascade
+    \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Syntaxe}
+    \begin{lstlisting}{language=perl}
+if( $condition )
+{
+  # si $condition est vraie
+}
+elsif( $une_autre_condition )
+{
+  # si $une_autre_condition est vraie
+}
+else
+{
+  # sinon
+}
+    \end{lstlisting}
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les structures de contrôle}
+
+  \begin{block}{Le bloc \textit{unless}}
+    \begin{itemize}
+    \item \textit{unless} est l'inverse de \textit{if}, le bloc est exécuté si
+      la condition est fausse
+    \item un bloc \textit{else} peut être ajouté si on veut faire exécuter
+      des instructions dans le cas où la condition est vraie
+    \item l'instruction \textit{elsif} permet de construire des conditions
+      en cascade même si la première condition est un \textit{unless}
+    \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Syntaxe}
+    \begin{lstlisting}{language=perl}
+unless( $condition )
+{
+  # si $condition est fausse
+}
+    \end{lstlisting}
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les structures de contrôle}
+
+  \begin{block}{Les modificateurs}
+    \begin{itemize}
+    \item une instruction simple peut être suivie d'une condition (\textit{if}
+      ou \textit{unless}, appelé modificateur
+    \item si la condition du modificateur est vraie alors l'instructeur
+      est réalisée
+    \item on ne peut pas mettre plusieurs modificateurs sur une même
+      instruction
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemple}
+    \begin{lstlisting}{language=perl}
+$message = 'no' if $total == 17;
+$message = 'yes' unless $total >= 17;
+print "Le total est $total\n" if $debug;
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les structures de contrôle}
+
+  \begin{block}{\textit{while} / \textit{until}}
+    \begin{itemize}
+    \item la première forme de boucle est basée sur un simple test
+    \item deux possibilités :
+      \begin{itemize}
+      \item \texttt{tant que} (\textit{while}) : le bloc est répété tant que
+        la condition est vraie
+      \item \texttt{jusqu'à ce que} (\textit{until}) : le bloc est répéré
+        jusqu'à ce que la condition soit vraie (donc répété tant que la
+        condition est fausse)
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Syntaxe}
+    \begin{lstlisting}{language=perl}
+while( $condition )
+{ ... }
+    \end{lstlisting}
+    \begin{lstlisting}{language=perl}
+until( $condition )
+{ ... }
+    \end{lstlisting}
+  \end{exampleblock}
+
+  \begin{alertblock}{Attention !}
+    La condition est évaluée au moins une fois !
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les structures de contrôle}
+
+  \begin{block}{La boucle \textit{for}}
+    \begin{itemize}
+    \item une boucle \textit{for} est composée de 4 éléments :
+      \begin{itemize}
+      \item la phase d'initialisation (en général, une variable mise à zéro)
+      \item le test de poursuite de l'itération
+      \item la phase d'incrémentation
+      \item le bloc d'instructions à répéter
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemple}
+    \begin{lstlisting}{language=perl}
+for( $i = 0; $i < 21; $i++)
+{
+  print $i;
+}
+    \end{lstlisting}
+  \end{exampleblock}
+
+  \begin{alertblock}{Boucle infinie}
+    L'un ou tous les éléments du \textit{for} peuvent être omis.
+    \begin{lstlisting}{language=perl}
+for(;;) { ... }
+    \end{lstlisting}
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les structures de contrôle}
+
+  \begin{block}{\textit{foreach}}
+    \begin{itemize}
+    \item dans le cas de l'itération d'une liste, il est possible d'utiliser
+      une instruction d'itération spéciale : \textit{foreach}
+    \item les éléments parcourus sont référencés par la variable spéciale
+      \$\_
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemple}
+    \begin{lstlisting}{language=perl}
+foreach( @users )
+{
+  print "$_\n est actif";
+}
+
+foreach $user ( @users )
+{
+  print "$user est actif\n";
+}
+    \end{lstlisting}
+  \end{exampleblock}
+%$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les structures de contrôle}
+
+  \begin{block}{\textit{last}}
+    \begin{itemize}
+    \item par défaut, une boucle s'arrête lorsque la condition d'arrêt est vraie
+      ou fausse selon le type de boucle (sauf dans le cas de la boucle infinie)
+    \item l'instruction \textit{last} mets fin à une boucle (équivalent du
+      \textit{break} du C)
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemple}
+    \begin{lstlisting}{language=perl}
+while( $condition )
+{
+  ...
+  last if $une_autre_condition
+}
+
+foreach ( @users )
+{
+  last if $_ eq 'root';
+  print "$_ est actif\n";
+}
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les structures de contrôle}
+
+  \begin{block}{\textit{next}}
+    \begin{itemize}
+    \item par défaut, l'ensemble des instructions du bloc d'une boucle sont
+      exécutées
+    \item l'instruction \textit{next} permet de passer à l'itération
+      suivante sans exécuter les instructions suivantes (équivalent du
+      \textit{continue} du C)
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemple}
+    \begin{lstlisting}{language=perl}
+while( $condition )
+{
+  ...
+  next unless $x > 0;
+  ...
+}
+
+foreach ( @users )
+{
+  next unless $_ ne 'root';
+  print "$_ est actif\n";
+}
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les structures de contrôle}
+
+  \begin{block}{\textit{redo}}
+    \begin{itemize}
+    \item par défaut, l'ensemble des instructions du bloc d'une boucle sont
+      exécutées une et une fois par itération
+    \item l'instruction \textit{redo} permet de rééxécuter les instructions
+      d'une itération (sans réévaluation de la condition et/ou de
+      l'incrémentation)
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemple}
+    \begin{lstlisting}{language=perl}
+while( $condition )
+{
+  ...
+  redo if $une_autre_condition
+}
+    \end{lstlisting}
+  \end{exampleblock}
+
+  \begin{alertblock}{\textit{redo} dans un bloc "nu"}
+    Tant que la condition est vraie, le bloc est redémarré
+    \begin{lstlisting}{language=perl}
+{
+...
+redo unless $condition;
+}
+    \end{lstlisting}
+  \end{alertblock}
+%$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les structures de contrôle}
+
+  \begin{block}{Les blocs labelissés}
+    \begin{itemize}
+    \item un bloc peut être nommé à l'aide d'un label (une étiquette)
+    \item les labels sont utilisables au sein des instructions \textit{next},
+      \textit{last} et \textit{redo} dans le cas des blocs imbriqués
+    \item on peut alors spécifier le bloc que l'on redémarre (dans le cas du
+      \textit{next} même si l'instruction \textit{next} est exécuté dans un bloc
+      qui est lui-même dans le bloc à redémarrer
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemple}
+    Si la deuxième condition est vraie alors la boucle \textit{LOOP\_2} est
+    stoppée et la boucle \textit{LOOP\_1} passe à l'itération suivante
+    \begin{lstlisting}{language=perl}
+LOOP_1: foreach ( @users )
+{
+  ...
+  LOOP_2: while( $condition )
+  {
+    ...
+    next LOOP_1 if $une_autre_condition;
+  }
+}
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+

@@ -17,9 +17,9 @@
 
   \begin{exampleblock}{Les types}
     \begin{itemize}
-    \item les scalaires commecent par \$
+    \item les scalaires commencent par \$
     \item les tableaux par @
-    \item les tables de hachage par \%
+    \item les tables de hachage (ou dictionnaires) par \%
     \end{itemize}
   \end{exampleblock}
 
@@ -205,5 +205,267 @@ my $x = 'Hello world';
 ($mon, $mday, $year) = (localtime())[4,3,5]
     \end{lstlisting}
   \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les listes}
+
+  \begin{block}{Accès aux éléments d'une liste}
+    \begin{itemize}
+    \item il faut utiliser \$ pour accéder à un seul élément d'une liste
+      contenant des scalaires
+      \begin{lstlisting}{language=perl}
+print $fruits[0];
+print $fruits[2];
+      \end{lstlisting}
+    \item si on veut accèder à plusieurs éléments alors il faut utiliser \@
+      \begin{lstlisting}{language=perl}
+print @fruits[1 .. 3];
+      \end{lstlisting}
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les listes}
+
+  \begin{exampleblock}{Affectation}
+    \begin{itemize}
+    \item affectation d'une case de la liste
+      \begin{lstlisting}{language=perl}
+$fruits[4] = 'pomme';
+$fruits[2] = 'poire';
+      \end{lstlisting}
+    \item affectation d'une sous-partie de la liste
+      \begin{lstlisting}{language=perl}
+@array[4, 7 .. 9] = ('quatre', 'sept', 'huit', 'neuf');
+      \end{lstlisting}
+    \end{itemize}
+  \end{exampleblock}
+
+  \begin{alertblock}{Permutation}
+    Permutation des éléments d'une liste (\textit{swap})
+    \begin{lstlisting}{language=perl}
+@array[1, 2] = @array[2, 1];
+($x, $y) = ($y, $x);
+    \end{lstlisting}
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les listes}
+
+  \begin{block}{Taille d'une liste}
+    \begin{itemize}
+    \item \textit{\$\#array} est l'index du dernier élément de la liste
+      \textit{\@array}
+    \item le nombre d'éléments est donc : \textit{\$\#array + 1}
+    \item de manière plus simple, il suffit d'affecter
+      la liste à un scalaire : \textit{\$count = \@array;}
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les listes}
+
+  \begin{exampleblock}{Quelques opérateurs}
+    \begin{itemize}
+    \item l'opérateur \textit{shift} supprime le premier élément d'une liste
+      \begin{lstlisting}{language=perl}
+@num = 4 .. 7;
+$first = shift @num;    # @num is ( 5..7 )
+      \end{lstlisting}
+    \item l'opérateur \textit{unshift} ajoute un élément en début de liste
+      \begin{lstlisting}{language=perl}
+unshift @num, $first; # @num is ( 4 .. 7 )
+unshift @num, 1 .. 3; # @num is ( 1 .. 7 )
+      \end{lstlisting}
+    \item les opérateurs \textit{push} et \textit{pop} permettent de faire la
+      même chose
+      \begin{lstlisting}{language=perl}
+$last = pop @num;        # @num is ( 1 .. 6 )
+push @num, $last, 8, 9;  # @num is ( 1 .. 9 )
+      \end{lstlisting}
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les dictionnaires}
+
+  \begin{block}{Définition}
+    \begin{itemize}
+    \item un dictionnaire est une table associant une clé à une valeur
+    \item deux syntaxes pour l'initialisation:
+      \begin{itemize}
+      \item à l'aide d'une liste
+        \begin{lstlisting}{language=perl}
+%french = ('one', 'un', 'two', 'deux', 'three', 'trois');
+        \end{lstlisting}
+      \item à l'aide de l'opérateur \textit{=>}
+        \begin{lstlisting}{language=perl}
+%german = (one   => 'ein',
+           two   => 'zwei',
+           three => 'drei');
+        \end{lstlisting}
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Accès}
+    Comme pour les listes, l'accès à une valeur utilise le symbole \$
+    \begin{lstlisting}{language=perl}
+$three = $french{three};
+    \end{lstlisting}
+    et l'accès à plusieurs valeurs utilise le symbole \@
+    \begin{lstlisting}{language=perl}
+@mots = @french{'one','two','three'};
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les dictionnaires}
+
+  \begin{block}{Affectation}
+    On peut affecter :
+    \begin{itemize}
+    \item une seule entrée du dictionnaire
+      \begin{lstlisting}{language=perl}
+$french{four} = 'quatre';
+$french{five} = 'cinq;
+      \end{lstlisting}
+    \item un ensemble d'entrées
+      \begin{lstlisting}{language=perl}
+@french{'six', 'seven'} = ('six', 'sept');
+      \end{lstlisting}
+    \item échange d'entrées
+      \begin{lstlisting}{language=perl}
+@hash{'foo', 'bar'} = @hash{'bar', 'foo'};
+      \end{lstlisting}
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les dictionnaires}
+
+  \begin{block}{Tests d'existence}
+    Deux tests possibles :
+    \begin{itemize}
+    \item sur les clés
+      \begin{lstlisting}{language=perl}
+$ok = exists $french{'ten'};
+      \end{lstlisting}
+    \item sur les valeurs
+      \begin{lstlisting}{language=perl}
+$ok = defined $french{'dix'};
+      \end{lstlisting}
+    \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Attention !}
+    Si la clé n'existe pas, la variable \$ok n'existe pas.
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les types}
+  \framesubtitle{Les dictionnaires}
+
+  \begin{block}{Quelques opérateurs}
+    \begin{itemize}
+    \item \textit{keys} : récupére la liste de toutes les clés (dans un ordre
+      quelconque)
+      \begin{lstlisting}{language=perl}
+@keys = keys %french;
+      \end{lstlisting}
+    \item \textit{values} : récupére la liste de toutes les valeurs
+      \begin{lstlisting}{language=perl}
+@values = values %french;
+      \end{lstlisting}
+    \item \textit{each} : récupére la prochaine pair (cké, valeur)
+      \begin{lstlisting}{language=perl}
+($key, $value) = each %french;
+      \end{lstlisting}
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les variables spéciales}
+
+  \begin{block}{Définition}
+    Les variables spéciales :
+    \begin{itemize}
+    \item sont en majuscules ou utilisent des symboles de ponctuation comme nom
+    \item sont des variables par défaut (par exemple, l'élément parcouru dans
+      une boucle, la ligne courante lue dans un fichier, \ldots)
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    \begin{itemize}
+    \item \textit{\$\_} est la variable par défaut (ou la variable contenant
+      la "valeur courante" ; par exemple, l'élément parcouru dans une boucle)
+    \item \textit{\$.} est le numéro de la ligne courante (lors d'un parcours
+      d'un fichier)
+    \item \textit{\$,} est le séparateur de champs pour la fonction print()
+    \item \textit{@\_} contient les arguments passés au sous-programme en cours
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les variables spéciales}
+
+  \begin{exampleblock}{Encore des exemples}
+    \begin{itemize}
+    \item \textit{@ARGV} contient la liste des paramètres passés sur la
+      ligne de commande au script en cours d'exécution
+    \item \textit{\%ENV} ontient l'ensemble des variables d'environnement
+      définies lorsque le script a été lancé
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Le contexte}
+
+  \begin{alertblock}{Résumé}
+    \begin{center}
+      \rowcolors[]{1}{blue!5}{blue!8}
+      \begin{tabular}{l!{\vrule}cc}
+        \rowcolor{blue!20}& \textbf{scalaire} & \textbf{liste}\\\hline
+        \texttt{\$a}      & un scalaire           & une liste à un élément \\
+        \texttt{@a}       & le nombre d'éléments  & un tableau \\
+        \texttt{\$a[\$n]} & un élément du tableau & une liste à un élément \\
+        \texttt{@a[@n]}   & le dernier élément de la sélection & une sélection du tableau \\
+        \texttt{\%a}      & les stats du dictionnaire & la liste des pairs (clé,valeur) \\
+        \texttt{\$a{\$n}} & un élément du dictionnaire & une liste à un élément\\
+        \texttt{@a{@n}}   & le dernier élément de la sélection & une sélection du dictionnaire \\
+      \end{tabular}
+    \end{center}
+  \end{alertblock}
+
 \end{frame}
 

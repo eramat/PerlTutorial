@@ -1,1 +1,333 @@
 \section{Les expressions régulières}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{block}{Définition}
+    \begin{itemize}
+    \item une expression régulière est un "patron" (\textit{pattern})
+      décrivant une part d'une chaîne de caractères
+    \item une chaîne de caractères correspond au \textit{pattern} ou non
+    \item le \textit{pattern} peut être détecté n'importe où dans la
+      chaîne de caractères
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Patterns simples}
+    Le \textit{pattern} le plus simple est un caractère ou une suite
+    de caractères.
+  \end{exampleblock}
+
+  \begin{alertblock}{"Peu importe"}
+    Le point (.) permet être remplacé par n'importe quel caractère sauf
+    le \textit{newline}.
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{block}{Les ensembles}
+    \begin{itemize}
+    \item au lieu d'utiliser le point, il est possible de définir des
+      ensembles
+    \item deux possibilités :
+      \begin{itemize}
+      \item l'opérateur [] : l'un des caractères place entre crochet peut
+        apparaître (par exemple, \texttt{[abc]}) ; le symbole "-" permet
+        de simplifier les énumérations
+      \item des raccourcis : l'ensemble est défini par un \textbackslash et une
+        lettre, et désigne un ensemble prédéfini (par exemple, l'ensemble des
+        chiffres)
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    \begin{lstlisting}{language=perl}
+a[bcd]e	  # abe ou ace ou ade
+a[b-y]z	  # abz ou ... ou ayz
+a[\t ]b	  # a\tb ou a b
+a[0-9]    # a0 ou ... ou a9
+    \end{lstlisting}
+  \end{exampleblock}
+
+  \begin{alertblock}{Raccourcis}
+    \begin{lstlisting}{language=perl}
+\d        # idem a [0-9]
+\w        # idem a [a-zA-Z0-9_]
+\s        # idem a [\t\f\n\r ]
+    \end{lstlisting}
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{block}{Les "ancres" (\textit{anchors})}
+    Une ancre indique que l'on veut que le pattern soit accroché à un élément
+    spécifique :
+    \begin{itemize}
+    \item le début de la chaîne de caractères (\textasciicircum)
+    \item la fin de la chaîne (\$)
+    \item un mot (\textbackslash b)
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    \begin{lstlisting}{language=perl}
+^abc     # 'abcde' est ok mais pas 'xyzabc'
+xyz$     # 'abcxyz' est ok mais pas 'xyzabc'
+Hello\b  # 'Hello world' est ok mais pas 'Helloworld'
+    \end{lstlisting}
+  \end{exampleblock}
+%$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{block}{Les répétitions}
+    Il est possible de mentionner que certains \textit{patterns} se répétent.
+    Plusieurs fréquences possibles :
+    \begin{itemize}
+    \item ? : zéro ou une fois
+    \item * : zéro ou plusieurs fois
+    \item + : une ou plusieurs fois
+    \item \{\$n,\$m\} : de n à m fois
+    \item \{\$n,\} : au moins n fois
+    \item \{,\$m\} : au plus m fois
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    \begin{lstlisting}{language=perl}
+ab?     # a ou ab
+ab*     # a ou ab ou abb ou ...
+ab+     # ab ou abb ou ...
+ab{2,3} # abb ou abbb
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{block}{Les alternatives}
+    \begin{itemize}
+    \item un \textit{pattern} peut se composer de plusieurs choix parmi
+      un ensemble
+    \item l'opérateur de séparation des alternatives est |
+    \item dans certains cas, l'utilisation des paranthèses est indispensable
+      pour gérer la priorité entre les opérateurs
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    L'opérateur d'alternatives est moins prioritaires que \textasciicircum et
+    \$ :
+    \begin{lstlisting}{language=perl}
+^a|b|c    # identique a (^a)|b|c
+a|b|c$    # identique a a|b|(c$)
+^(a|b|c)
+(a|b|c)$
+    \end{lstlisting}
+  \end{exampleblock}
+%$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{block}{L'opérateur de correspondance (\textit{matching})}
+    \begin{itemize}
+    \item l'application d'un \textit{pattern} sur une chaîne de caractères
+      s'effectue à l'aide de m/REGEX/ où m signifie \textit{match} et REGEX est
+      le pattern
+    \item par défaut, la recherche de correspondance est réalisée sur la
+      variable par défaut \$\_
+    \item s'il y a correspondance alors \textit{true} est retournée
+    \item on peut chercher la correspondance sur une variable autre que \$\_ à
+      l'aide de l'opérateur de \textit{binding} : =\textasciitilde
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{exampleblock}{Exemples}
+    \begin{lstlisting}{language=perl}
+if( m/REGEX/ )
+{
+  print "It matches!\n";
+}
+
+if( $string =~ m/REGEX/ )
+{
+...
+}
+    \end{lstlisting}
+  \end{exampleblock}
+%$
+
+  \begin{alertblock}{Encore plus court !}
+    On peut omettre le m devant /REGEX/.
+    \begin{lstlisting}{language=perl}
+if( /REGEX/ )
+{
+  print "It matches!\n";
+}
+    \end{lstlisting}
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{block}{\textit{Case sensitive}}
+    \begin{itemize}
+    \item par défaut, l'opérateur de \textit{matching} recherche la
+      correspondance exacte
+    \item on peut lever le test majuscule / minuscule en ajoutant i à la fin
+      de l'opération de correspondance
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    L'utilisateur peut faire o ou O.
+    \begin{lstlisting}{language=perl}
+{
+  print "Voulez-vous supprimer le fichier ? ";
+  $answer = <STDIN>;
+  redo unless $answer =~ m/^o/i;
+}
+    \end{lstlisting}
+  \end{exampleblock}
+
+  \begin{alertblock}{Le \textit{pattern} dans une variable}
+    Le \textit{pattern} peut être une chaîne de caractère.
+    \begin{lstlisting}{language=perl}
+$regex = 'root|toto';
+if( /$regex/ )    # identique a m/root|toto/
+{ ... }
+    \end{lstlisting}
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{block}{Choix}
+    Les sous expressions paranthesées dans lequel il y a des alternatives ou
+    des patterns peuvent être récupérées, après l'opération de correspondance
+    \begin{lstlisting}{language=perl}
+$_ = 'toto est un utilisateur';
+m/(t\w+) est un utilisateur/;
+$name = $1;
+    \end{lstlisting}
+    \$1 est une \textit{memory variable} et est égal à 'toto'
+  \end{block}
+%$
+  \begin{alertblock}{Durée de vie des variables}
+    Les variables \$x issues des opérateurs de \textit{matching} ne sont pas
+    touchées jusqu'à la prochaine opération de \textit{matching}
+    \textbf{réussie}.
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{block}{Substitution}
+    \begin{itemize}
+    \item les expressions régulières sont aussi utilisées pour remplacer
+      une partie d'une chaîne de caractères par une autre chaîne
+    \item le \textit{pattern} permet de définir la partie de la chaîne
+      qui sera remplacé
+    \end{itemize}
+    \begin{lstlisting}{language=perl}
+s/REGEX/REMPLACEMENT/
+    \end{lstlisting}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    \begin{lstlisting}{language=perl}
+$_ = 'user: root';
+s/user/utilisateur/;      # $_ = 'utilisateur: root'
+
+$name = 'user: toto';
+$name =~ s/toto/titi/;    # $name = 'user: titi'
+    \end{lstlisting}
+  \end{exampleblock}
+%$
+  \begin{alertblock}{Retour d'une substitution}
+    Une substitution retourne \textit{true} si elle a eu lieue.
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{block}{Changement de comportement}
+    On peut ajouter un modificateur de comportement :
+    \begin{itemize}
+    \item i : suppression du mode "case sensitive"
+    \item g : substitue toutes les occurrences du \textit{pattern}
+    \item s : change le comportement du point $\rightarrow$ les
+      \textit{newlines} sont pris en compte
+    \end{itemize}
+    \begin{lstlisting}{language=perl}
+s/REGEX/REMPLACEMENT/
+    \end{lstlisting}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    \begin{lstlisting}{language=perl}
+$_ = 'toto tata toto titi';
+s/toto/titi/g;               # $_ = 'titi tata titi titi';
+
+$_ = 'toto tata Toto titi';
+s/toto/titi/i;               # $_ = 'titi tata titi titi';
+
+s/\/\*.*\*\///s;             # supprimer les commentaires d'un code source C
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les expressions régulières}
+
+  \begin{block}{\textit{Memory variable}}
+    Lors de la substitution, les variables mémoires sont affectées et donc
+    réutilisable dans la chaîne de remplacement.
+    \begin{lstlisting}{language=perl}
+$name = 'user: toto [tutu]';
+$name =~ s/toto (\[tutu\]*)/$1 titi/;
+    \end{lstlisting}
+  \end{block}
+%$
+
+  \begin{alertblock}{Autres délimiteurs}
+    \begin{itemize}
+    \item dans certains cas, les délimiteurs / / sont génants et nécessitent
+      l'utilisateur de \textbackslash
+    \item on peut les changer par \#...\# ou (...) ou <...> ou \{...\} ou [...]
+    \end{itemize}
+    \begin{lstlisting}{language=perl}
+m/\/usr\/bin\/perl/
+m#/usr/bin/perl#
+s#/usr/bin/perl#/bin/perl#
+    \end{lstlisting}
+  \end{alertblock}
+
+\end{frame}
+
