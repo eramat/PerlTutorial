@@ -1,0 +1,45 @@
+\section{Correction}
+
+\textbf{Exercice 1.}
+
+\begin{lstlisting}[language=bash]
+print "Changing permissions on $ARGV[0]\n";
+
+chmod 0755,$ARGV[0];
+
+$whereami=`pwd`;
+chomp($whereami);
+push @dir,$whereami."/".$ARGV[0];
+
+while ($dirs=pop @dir) {
+
+	$whereami=`pwd`;
+	chomp($whereami);
+	chomp($dirs);
+	chdir $dirs;
+	print "changing to $dirs\n";
+
+
+	while (<*>) {
+
+		next if ($_ eq ".");
+		next if ($_ eq "..");
+
+		if (-d $_) {
+			next if (-l $_);
+			chmod 0755,$_;
+			push @dir,$dirs."/".$_;
+			#print "pushing ".$dirs."/".$_."\n";
+		} else {
+			if (/.*\.cgi/) {
+				chmod 0755,$_;
+			} else {
+				chmod 0744,$_;
+			}
+		}
+	}
+	chdir $whereami;
+	#print "changing to $dirs\n";
+
+}
+\end{lstlisting}

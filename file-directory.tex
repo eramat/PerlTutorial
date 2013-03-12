@@ -1,0 +1,34 @@
+\section{Les fichiers et les répertoires}
+
+\begin{frame}[fragile]
+  \frametitle{Les fichiers et les répertoires}
+
+  \begin{block}{Définition}
+    Il existe deux solutions pour interagir avec le système de fichiers :
+    \begin{itemize}
+    \item à l'aide des commandes système et la fonction \textit{exec} ou
+      \textit{system} ou les expressions entre \textit{back-quote}
+    \item à l'aide de fonctions Perl
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples sous Linux}
+    Le changement de permissions sur un fichier:
+    \begin{itemize}
+    \item via \textit{exec} :
+      \begin{lstlisting}{language=perl}
+exec("chmod +x test.pl");
+      \end{lstlisting}
+    \item via la fonction \textit{chmod}
+      \begin{lstlisting}{language=perl}
+chmod(0666, @file_list);
+      \end{lstlisting}
+    \item via la fonction \textit{chmod} du module \textit{File}
+      \begin{lstlisting}{language=perl}
+use File::chmod;
+chmod("+x", @files);
+      \end{lstlisting}
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
