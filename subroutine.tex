@@ -1,1 +1,136 @@
 \section{Les sous-routines}
+
+\begin{frame}[fragile]
+  \frametitle{Les sous-routines}
+
+  \begin{block}{Définition}
+    \begin{itemize}
+    \item les sous-routines sont des fonctions
+    \item elles peuvent être appelées avec ou sans paramètre
+    \item elles sont définies n'importe où dans un programme
+    \item elles sont nommées comme les variables
+    \item le symbole \& est utilisé pour les appels
+    \item la valeur retournée par la sous-routine est le résultat de la
+      dernière expression évaluée (il n'y a donc pas de mot-clé spéficique)
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Un exemple}
+    \begin{lstlisting}[language=perl]
+$result = &hello_world;   # appel à la sous-routine hello_world
+
+sub hello_world
+{
+  "hello"."world";
+}
+    \end{lstlisting}
+  \end{exampleblock}
+%$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les sous-routines}
+
+  \begin{alertblock}{Un autre exemple}
+    \begin{lstlisting}[language=perl]
+sub max
+{
+  if ( $x <= $y )
+  {
+    $y;
+  }
+  else
+  {
+    $x;
+  }
+}
+    \end{lstlisting}
+  \end{alertblock}
+%$
+  \begin{block}{\textit{return}}
+    On peut aussi utiliser \textit{return}
+    \begin{lstlisting}[language=perl]
+sub max
+{
+  return $y if $x <= $y;
+  $x;
+}
+    \end{lstlisting}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les sous-routines}
+
+  \begin{block}{Paramètres}
+    \begin{itemize}
+    \item on peut passer des paramètres aux sous-routinex lors de l'appel
+    \item dans les sous-routines, les paramètres sont accessibles via la
+      variable spéciale @\_ (une liste)
+    \item chaque sous-routine a son propre @\_
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Un exemple}
+    \begin{lstlisting}[language=perl]
+$result = &add($x, $y);
+
+sub add
+{
+  ($m, $n) = @_;
+  $m + $n;
+}
+    \end{lstlisting}
+  \end{exampleblock}
+%$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les sous-routines}
+
+  \begin{block}{Variables locales}
+    \begin{itemize}
+    \item par défaut, toutes les variables sont globales
+    \item on peut définir des variables locales de deux manières différentes :
+      \begin{itemize}
+      \item grâce à une déclaration via \textit{my}
+      \item grâce à la fonction \textit{local}
+      \end{itemize}
+    \item dans le cas de la fonction \textit{local}, s'il existe une variable
+      globale de même nom qu'une variable locale, la variable globale est cachée
+      temporairement
+    \item une variable locale peut être de n'importe quel type
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Les sous-routines}
+
+  \begin{exampleblock}{Un exemple avec \textit{local}}
+    \begin{lstlisting}[language=perl]
+sub foo
+{
+  local($x, $y);
+  ($x,$y) = @_;
+
+  local ($x, $y) = @_;  # on peut assigner lors de la declaration
+
+  ...
+}
+    \end{lstlisting}
+  \end{exampleblock}
+
+  \begin{alertblock}{Un exemple avec \textit{my}}
+    \begin{lstlisting}[language=perl]
+sub foo
+{
+  my ($x, $y) = @_;
+  ...
+}
+    \end{lstlisting}
+  \end{alertblock}
+
+\end{frame}

@@ -1,1 +1,32 @@
 \section{Les modules}
+
+\begin{frame}[fragile]
+  \frametitle{Les modules}
+
+  \begin{block}{Définition}
+    \begin{itemize}
+    \item Perl dispose d'une multitude de bibliothèques et de modules
+    \item il existe 2 façons d'utiliser un module :
+      \begin{itemize}
+      \item le code du module est intégré au code (comme s'il avait été écris
+        dans le code) avec l'instruction \textit{require}
+      \item le code du module reste dans l'espace de nommage du module avec
+        l'instruction \textit{use}
+      \item avec \textit{use}, il faut utiliser \textit{import} si l'on veut
+        obtenir le même comportement
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    Une fonction \textit{search} est définie dans le module \textit{utils}.
+    \begin{lstlisting}[language=perl]
+require "utils.pl";
+search($string, $value);
+
+use utils;
+utils::search($string, $value);
+    \end{lstlisting}
+  \end{exampleblock}
+
+\end{frame}

@@ -1,1 +1,161 @@
 \section{Manipulation de texte}
+
+\begin{frame}[fragile]
+  \frametitle{Manipulation de texte}
+
+  \begin{block}{Définition}
+    Les scripts Perl font principalement du traitement sur des fichiers
+    et du texte :
+    \begin{itemize}
+    \item recherche de chaînes de caractères
+    \item extraction, découpage, substitution, remplacement, ...
+    \item transformation
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Manipulation de texte}
+
+  \begin{block}{Recherche d'une sous-chaîne}
+    \begin{itemize}
+    \item la fonction \textit{index} recherche une sous-chaîne dans une
+      chaîne
+    \item elle retourne la position du premier caractère de la sous-chaîne
+      retrouvée dans la chaîne
+    \item cette position est égale à -1 si la sous-chaîne n'est pas trouvée
+    \item on peut aussi démarrer la recherche à partir d'une certaine position
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    \begin{lstlisting}[language=perl]
+$pos = index($string, $substring);
+
+$pos = index("Hello world", "Hello");  # $pos = 0
+$pos = index("Hello world", "world");  # $pos = 6
+$pos = index("Hello world", "toto");   # $pos = -1
+
+$pos = index("Hello world", "o", 6);  # on debute la recherche a 6
+
+$pos = rindex("Hello world", "o"); # recherche en partant de la fin
+    \end{lstlisting}
+  \end{exampleblock}
+%$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Manipulation de texte}
+
+  \begin{block}{Extraction d'une sous-chaîne}
+    \begin{itemize}
+    \item la fonction \textit{substr} récupère une sous-chaîne d'une certaine
+      longueur dans une chaîne
+    \item elle peut aussi permettre le remplacer d'une sous-chaîne par une
+      autre sous-chaîne en la combinant avec l'opérateur d'affectation
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    \begin{lstlisting}[language=perl]
+$sub_str = substr $string, $start, $length
+
+$str = substr "Hello world", 6, 2; # $str = "wo"
+$str = substr "Hello world", 6     # $str = "world"
+
+$name = 'Hello world';
+$str = substr $name, index($name, 'w'); # $str = "world"
+
+substr($name,0,5) = 'Good ';        # "Good  world"
+substr($name,0,5) =~ s/Hello/Good/;
+    \end{lstlisting}
+  \end{exampleblock}
+%$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Manipulation de texte}
+
+  \begin{block}{Remplacement}
+    \begin{itemize}
+    \item la fonction \textit{tr} remplace des caractères par d'autres
+      au sein du contenu de la variable \$\_
+    \item la fonction retourne le nombre de caractères remplacés
+    \item avec l'opérateur =\textasciitilde, on peut affecter le résultat à une
+      autre variable que le variable spéciale \$\_
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    \begin{lstlisting}[language=perl]
+$_ = "hello world";
+tr/eo/oe/;           # la lettre e est remplacee par le o et le o par e
+tr/a-z/n-za-m/;      # le a est remplacé par n, b par o, ...
+$v =~ tr/a-z/n-za-m/; # affectation d'une autre variable
+    \end{lstlisting}
+  \end{exampleblock}
+%$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Manipulation de texte}
+
+  \begin{block}{\textit{split}}
+    \begin{itemize}
+    \item le traitement du texte provenant de fichiers de log conduit
+      souvent à filtrer et à découper des chaînes
+    \item la fonction \textit{split} permet de construire des listes de
+      sous-chaînes à partir d'une chaîne selon certains critères :
+      \begin{itemize}
+      \item une expression régulière
+      \item un délimiteur
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Exemples}
+    \begin{itemize}
+    \item selon une expression régulière
+      \begin{lstlisting}[language=perl]
+@names = split(/REGEX/, $string);
+      \end{lstlisting}
+    \item selon le séparateur :
+      \begin{lstlisting}[language=perl]
+@names = split(/:/, 'Toto:Titi:Tutu');       # @names = ["Toto", "Titi", "Tutu"]
+      \end{lstlisting}
+    \end{itemize}
+  \end{exampleblock}
+%$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Manipulation de texte}
+
+  \begin{exampleblock}{Exemples}
+    \begin{itemize}
+    \item selon le séparateur : et des champs vides
+      \begin{lstlisting}[language=perl]
+@names = split(/:/, ':::Toto:Titi:Titi:::');  # le tabeau va contenir des cases vides
+      \end{lstlisting}
+    \item par défaut
+      \begin{lstlisting}[language=perl]
+@name = split();       # split le contenu de $_ selon le separateur espace
+      \end{lstlisting}
+    \end{itemize}
+  \end{exampleblock}
+%$
+
+  \begin{alertblock}{\textit{join}}
+    La fonction \textit{join} réalise l'inverse de \textit{split} : à
+    partir d'une liste de chaînes de caractères, on construit une chaîne où
+    les éléments sont séparés par un séparateur
+    \begin{lstlisting}[language=perl]
+$str = join($separator, @bits);
+
+@names = split(/:/, "Toto:Titi:Tutu");
+$str = join(':', @names);      # reconstruction de la meme chaine
+    \end{lstlisting}
+  \end{alertblock}
+%$
+\end{frame}
